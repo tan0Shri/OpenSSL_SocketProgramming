@@ -1,0 +1,47 @@
+Here the programs attached demonstrates a simple SSL/TLS -based chat server in C using OpenSSL. The server listens for incoming multiple client connections, establishes secure communication using SSL/TLS, and broadcasts messages received from one client to all other clients.
+
+Here, my written code will connect the server and clients in the same device. But to connect with different device, we need to specify some IP address to the server (server.c) code (IP address for your server device can be obtained by "ifconfg" command in linux terminal of that particular device) and put that same IP address to the client(client.c) code before the connect function. 
+
+
+
+
+Note: All the necessary files are already included
+In case the server program wants for "Pass Phrase", type "cipher" and hit enter
+
+or we may have your own "Pass Phrase" by running the following bashes in linux terminal
+//bash to install OpenSSL (if already not installed)
+sudo apt-get install openssl
+
+//generate private key
+openssl genpkey -algorithm RSA -out private_key.pem -aes-256-cbc
+
+
+//Generate Certification Signing Request(CSR)
+openssl req -new -key private_key.pem -out certificate.csr
+
+//Generate a self_Signed certificate
+openssl x509 -req -days 365 -in certificate.csr -signkey private_key.pem -out certificate.crt
+
+
+
+
+
+
+Below are the bashes to succesfully run the codes
+
+//bash to compile the server code in linux terminal:
+gcc -o server server.c -lssl -lcrypto
+
+
+//bash to run the server code in linux terminal:
+./server
+
+//bash to compile the client code in linux terminal:
+gcc -o client client.c -lssl -lcrypto
+
+//bash to run the client code in linux terminal:
+./client
+
+
+
+
